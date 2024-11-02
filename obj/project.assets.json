@@ -3516,11 +3516,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Miłosz\\source\\repos\\ToDoList\\ToDoList\\ToDoList_Zadanie.csproj",
+      "projectUniqueName": "C:\\Users\\Miłosz\\source\\repos\\ToDoListZadanie\\ToDoList_Zadanie.csproj",
       "projectName": "ToDoList_Zadanie",
-      "projectPath": "C:\\Users\\Miłosz\\source\\repos\\ToDoList\\ToDoList\\ToDoList_Zadanie.csproj",
+      "projectPath": "C:\\Users\\Miłosz\\source\\repos\\ToDoListZadanie\\ToDoList_Zadanie.csproj",
       "packagesPath": "C:\\Users\\Miłosz\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Miłosz\\source\\repos\\ToDoList\\ToDoList\\obj\\",
+      "outputPath": "C:\\Users\\Miłosz\\source\\repos\\ToDoListZadanie\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

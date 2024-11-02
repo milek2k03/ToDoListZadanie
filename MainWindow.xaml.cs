@@ -16,7 +16,7 @@ namespace ToDoList_Zadanie
             _context = context;
             FilterDatePicker.SelectedDate = DateTime.Today;
             LoadTasks();
-            //CheckForUpcomingTasks();
+            CheckForUpcomingTasks();
         }
 
         private void AddTask_Click(object sender, RoutedEventArgs e)
