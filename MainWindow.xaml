@@ -1,0 +1,125 @@
+﻿<Window x:Class="ToDoList_Zadanie.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ToDoList_Zadanie.Converters"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        Title="Todo List" Height="450" Width="800"
+        Background="#f9f9f9" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+        <!-- Button Style with Rounded Corners and Increased Padding -->
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <!-- Increased padding -->
+            <Setter Property="Background" Value="#3A86FF"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ListBox Item Style with Hover Effect -->
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Margin" Value="5,2"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#ddd"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#ebebeb"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding IsCompleted}" Value="True">
+                    <Setter Property="Foreground" Value="Green"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Placeholder Text Style for TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,5"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="BorderBrush" Value="#ddd"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Filter Section -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+            <TextBlock Text="Filtruj zadania dla dnia:" Margin="0,0,10,0" VerticalAlignment="Center" FontSize="16"/>
+            <DatePicker x:Name="FilterDatePicker" SelectedDateChanged="FilterDatePicker_SelectedDateChanged"/>
+        </StackPanel>
+
+
+        <!-- Task Management Section -->
+        <StackPanel Grid.Row="1" Margin="0,10,0,0">
+            <Grid Margin="0,5">
+                <TextBox x:Name="TitleTextBox" Margin="0,0,0,5"/>
+                <TextBlock Text="Wprowadź tytuł" 
+                           IsHitTestVisible="False" 
+                           Margin="8,0,0,0" 
+                           Foreground="Gray" 
+                           VerticalAlignment="Center" 
+                           Visibility="{Binding Text, ElementName=TitleTextBox, Converter={StaticResource StringToVisibilityConverter}}"/>
+            </Grid>
+
+            <Grid Margin="0,5">
+                <TextBox x:Name="DescriptionTextBox" Margin="0,0,0,5"/>
+                <TextBlock Text="Wprowadź opis" 
+                           IsHitTestVisible="False" 
+                           Margin="8,0,0,0" 
+                           Foreground="Gray" 
+                           VerticalAlignment="Center" 
+                           Visibility="{Binding Text, ElementName=DescriptionTextBox, Converter={StaticResource StringToVisibilityConverter}}"/>
+            </Grid>
+
+            <DatePicker x:Name="DueDatePicker" Margin="0,5" SelectedDateChanged="FilterDatePicker_SelectedDateChanged" DisplayDateStart="{x:Static system:DateTime.Today}"/>
+
+            <!-- Buttons Section with Increased Padding -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+                <Button Content="Dodaj zadanie" Click="AddTask_Click" x:Name="AddButton" Width="119"/>
+                <Button Content="Zapisz zmiany" Click="SaveTask_Click" x:Name="SaveButton" Visibility="Collapsed"  Width="119"/>
+                <Button Content="Usuń zaznaczone zadanie" Click="DeleteTask_Click" x:Name="DeleteButton" Background="#FF4C4C" Width="174"/>
+            </StackPanel>
+
+            <!-- Tasks List -->
+            <ListBox x:Name="TasksListBox" Margin="0,10">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="4">
+                            <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding DueDate, StringFormat=d}" Margin="5,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Title}" Margin="5,0" VerticalAlignment="Center" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Description}" Margin="5,0" VerticalAlignment="Center" Foreground="Gray"/>
+                            <Button Content="Edytuj" Click="EditTask_Click" Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Converter={StaticResource BoolToVisibilityConverter}}"  Width="60"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </Grid>
+</Window>
